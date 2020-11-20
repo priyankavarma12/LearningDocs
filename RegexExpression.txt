@@ -1,0 +1,147 @@
+index=radian_qa3 19793cff-4284-4c07-84f5-1b8398b970dc sourcetype="pc:app:pipe" - 60minutes
+
+sourcetypes 
+UserName - UserName=(?P<UserName>\w+\s\w+)\s
+ThreadID - ThreadID=(?P<ThreadID>\w+)\s	
+TransactionId/ID - TransactionI[dD]=(?P<TransactionId>[\w+]{8}\-(?:[\w+]{4}\-){3}[\w+]{12})
+PolicyNumber - PolicyNumber=(?P<PolicyNumber>\w+)\s
+Component - 
+EntryPoint -
+
+EXTRACT-TransactionId
+TransactionId=(?P<TransactionId>[\w+]{8}\-(?:[\w+]{4}\-){3}[\w+]{12}\-\d\_[\d+]{7})
+
+
+ThreadI[Dd]=\s?(?P<ThreadID>\d+)\s\|\s(?P<BatchName>[\w]+)\s+(?P<BatchStatus>[\w ]+)\s\|
+
+EntryPoint=\s?(?P<EntryPoint>[\w\. \(\)\=\:\&\{\}\[\]\-\>\,]+)(?:$|(?: \|))
+
+                2020-05-04 01:39:46,521 LogLevel=INFO RadianPCFandRules | TransactionId=19793cff-4284-4c07-84f5-1b8398b970dc | PolicyNumber=QA3100434540 | ThreadID=54528 | UserName=System User  | EntryPoint= prop is not null : {prop} 	
+
+
+
+node\[(?P<node>\S+)\]\sdatabase\[(?P<database>\S+)\]\s
+
+\,\"(?P<ErrorMessage>[\w\s]+)\"\}
+
+(node|client)\[(?P<node>\S+)\]\sdatabase\[(?P<database>\S+)\]\s
+
+
+
+^(?P<src_ip>\S+)\s+(?P<ident>\S+)\s+(?P<user>\S+)\s+\[(?P<timestamp>[^\]]*)\]\s+\"\s*(?P<http_method>[^\s\"]+)\s+(?P<uri_path>\S+?)(?P<uri_query>\?\S+?)?\s+(?P<http_version>\S+)\"\s+(?P<status>\S+)\s+\"(?P<response_time>[^\s\"]+)\"\s(?P<bytes_out>\d+)\s\"(?P<http_referrer>[^\"]*)\"\s\"(?P<http_user_agent>[^\"]*)\"\s\"(?P<upstream_addr>[^\"]*)\"\s\"(?P<upstream_status>[^\"]*)\"\s\"(?P<upstream_response_time>[^\s\"]+]*)\"\s\"(?P<chef_version>[^\"]*)\"\s\"(?:algorithm\=(?P<chef_sign_algorithm>[^\;]*)\;version\=(?P<chef_sign_version>[^\;]*)\;|\-)\"\s\"(?P<chef_userid>[^\"]*)\"\s\"(?P<chef_sign_timestamp>[^\"]*)\"\s\"(?P<chef_content_hash>[^\"]*)\"\s(?P<bytes_in>\d+)\s\"(?P<request_id>[^\"]+)\"$
+
+
+client:\s(?P<client>\S+)\sserver:\s(?P<server>\S+)\srequest:\s(?P<request>\S+)\s(?P<uri_path>[^\s\"]+)\s(?P<http_version>\S+)
+
+INFO:\s(?P<action>\w+)\s
+
+
+\*\d+\s(?P<ErrorMessage>.+?)\,\sclient
+
+
+client:\s(?P<client>\S+)[\,]\sserver:\s(?P<server>\S+)[\,]\srequest:\s[\"](?P<http_method>\S+)\s(?P<uri_path>[^\s\"]+)\s(?P<http_version>\S+)[\"]\,\shost:\s[\"](?P<chef_host>\S+)[\"]
+
+
+(?P<LogLevel>(INFO|ERROR|DEBUG))
+
+TransactionID:(?P<TransactionID>\d+)\:
+
+
+EXTRACT-EndTime
+\sEnd\sTime\s:\s(?P<EndTime>(\d{2})-(\d{2})-(\d{4}) (\d{2}):(\d{2}):(\d{2}).(\d{3})\s(AM|PM))\|
+
+EXTRACT-OperationsFailed
+Operations\sFailed\s:\s(?P<OperationsFailed>\d+)
+
+EXTRACT-OperationsPerformed
+Operations\sPerformed\s:\s(?P<OperationsPerformed>\d+)\|
+
+EXTRACT-StartTime
+\sStart\sTime\s:\s(?P<StartTime>(\d{2})-(\d{2})-(\d{4}) (\d{2}):(\d{2}):(\d{2}).(\d{3})\s(AM|PM))\|
+
+EXTRACT-ThreadID,BatchName,BatchStatus
+ThreadI[Dd]=\s?(?P<ThreadID>\d+)\s\|\s(?P<BatchName>[\w]+)\s+(?P<BatchStatus>[\w ]+)\s\|
+
+EXTRACT-TotalOperations
+Total\sOperations\s:\s(?P<TotalOperations>\d+)\|
+
+EXTRACT - LogLevel
+LogLevel=(?P<LogLevel>\w+)\s
+
+EXTRACT-TransactionId
+(?P<transactionId>[a-zA-Z0-9]{8}\-(?:[a-zA-Z0-9]{4}\-){3}[a-zA-Z0-9]{12})
+
+EXTRACT-PC
+\spc:(?P<PC>\d+)
+
+
+FileName=(?P<FileName>[\w\-\.]+)\|
+Jun 26, 2020 8:27:22 AM EDT INFO    [Send to Ephesoft DDPs] ECM INFO : Create a batch for Ephesoft processing  TransactionId=acbbd3b8-4034-4a88-afe2-096882889ac1|FileName=72005126-06262020-082006497.zip||FileID=acbbd3b8-4034-4a88-afe2-096882889ac1|MimeType=application/pdf|EndPoint=https://urldefense.com/v3/__https://PRD-xsb-service/DocListNotification/Notify.svc/UpdateQueue__;!!GF_29dbcQIUBPA!mi-r6Cv07Z4gKFAL4j1dtDiYWHv1e0HNJe8zFqEzpo3UR2XRY9HZ04JsYyal0wzY0Ik$ [prd-xsb-service]
+
+<HTTP_Code>(?P<HTTP_Code>\d+)<\/HTTP_Code><Result>(?P<Result>\w+)<\/Result>[\S]+<Message>(?P<Message>[\w\s\.]+?)\s\((?P<BatchID>\w+)\)\.\s[\S]+\s\|\|\sStatus\sCode\s\:\s(?P<StatusCode>\d+)$
+
+
+EXTRACT-TransactionId
+(?P<transactionId>[a-zA-Z0-9]{8}\-(?:[a-zA-Z0-9]{4}\-){3}[a-zA-Z0-9]{12})
+
+
+Action\"\:\"(?P<Action>\w+)\"\,\"BatchID\"\:\"(?P<BatchID>\w+)\"\,\"Module_Name\"\:\"(?P<Module>\w+)\"
+
+DBSTART\|(?P<TransactionID>[\S]+?)\|[\S]+Action\"\:\
+
+index="test_anon" sourcetype="boomi:ephesoft:error"
+
+
+EXTRACT-DateTimeStamp,RequestID,TransactionID,GraviteeIPAddress,SourceIPAddress,HTTPMethod,URI,HTTPStatusCode,PayloadSize,TotalTime
+^\[(?P<DateTimeStamp>[^\]]+)[^\]\n]*\]\s+(?P<RequestID>[^ ]+)[^ \n]* (?P<TransactionID>[^ ]+)[^ \n]* \((?P<GraviteeIPAddress>[^\)]+)[^ \n]* (?P<SourceIPAddress>[^ ]+)(?:[^ \n]* ){3}(?P<HTTPMethod>\w+)[^/\n]*/(?P<URI>[^ ]+)\s+(?P<HTTPStatusCode>\d+)\s+(?P<PayloadSize>\d+)\s+(?P<TotalTime>[^ ]+)
+
+
+EXTRACT-prod:gravitee
+^\[(?P<DateTime>[^\]]+)[^ \n]* (?P<RequestID>[^ ]+)[^ \n]* (?P<TransactionID>[^ ]+)[^\(\n]*\((?P<InternalIP>[^\)]+)[^ \n]* (?P<ExternalIP>[^ ]+)(?:[^ \n]* ){3}(?P<HTTPMethod>[^ ]+)\s+/(?P<URI>[a-z]+)[^ \n]* (?P<HTTPCode>\d+)\s+(?P<ResponseSize>\d+)\s+(?P<TotalTime>\d+)
+
+
+
+vendor\surl:\s\'(?P<VendorUrl>[\w\:\/\.\=]+)\'
+
+
+
+
+([A-Z][a-z]*(?:[\.\'][A-Z])?[a-z]*\.?)$
+
+s/<rad:ContactPointTelephoneValue>.+?<\/rad:ContactPointTelephoneValue>/<rad:ContactPointTelephoneValue>XXXXX<\/rad:ContactPointTelephoneValue>/g s/BorrowerLastName\\\\\\\":\\\\\\\".+?\\\\\\\"/BorrowerLastName\\\\\\\":\\\\\\\"XXXXX\\\\\\\"/g s/<rad:FirstName>.+?<\/rad:FirstName>/<rad:FirstName>XXXXX<\/rad:FirstName>/g s/<rad:FullName>.+?<\/rad:FullName>/<rad:FullName>XXXXX<\/rad:FullName>/g s/<rad:LastName>.+?<\/rad:LastName>/<rad:LastName>XXXXX<\/rad:LastName>/g s/<rad:PostalCode>.+?<\/rad:PostalCode>/<rad:PostalCode>XXXXX<\/rad:PostalCode>/g
+
+
+Masked fields - Last Name, FICO, City,State,Email, Address, Borrower Name
+Pending - Phone, SSN
+prd3:BillingCenter
+prd3:microservices
+prd3:rims
+prd3:BC
+prd3:GP
+
+
+--regexp-extended "s/(Borrower Last Name\: )[a-zA-Z \-\.\']+/\1XXXXX/g"
+
+s/(PrimaryBorrowerCity|PrimaryBorrowerState|PrimaryBorrowerZip|BorrowerName|PrimaryBorrowerStreetAddress)(\",\"Value\"\:\")[\w \-\.]+/\1\2\XXXXX/g
+
+(Borrower\sLast\sName\:\s+)[\w\s]+\,/\1\XXXXX
+
+s/(FICO\swith\sBaseValue\:\s)\d+/\1XXX/g
+
+prd3:pas
+Last updated SEDCMD-NPI -
+s/(PrimaryBorrowerCity|PrimaryBorrowerState|PrimaryBorrowerZip|BorrowerName|PrimaryBorrowerStreetAddress|\"CreditScore|BorrowerName1|BorrowerName2|BorrowerAddr1|BorrowerCity|BorrowerStateZip)(\",\"Value\"\:\")[\w\s\-\.\\\#]+/\1\2\XXXXX/g s/(Borrower\sLast\sName\:\s+).+?\,/\1XXXXX,/g s/(FICO\swith\sBaseValue\:\s)\d+/\1XXX/g s/(<BodyText>Dear\s+)\w+/\1XXXXX/g s/(Borrower\sEmail:\s)[\S]+$/\1XXXX/g s/(Borrower\sName\(s\)\:\s+).+$/\1XXXXX/g s/(Property\sAddress:\s)[\w\,\s]+$/\1XXXX/g s/(FICO\s(?:is\s)?)\d+(\s?\/\s?)(?:\d+|[\w\s]+)/\1XXX\2XXX/g s/(Borrower\:\s+|co-borrower\s).+/\1XXXXX/g s/(Subject\:\s(?:MI\sNew\sRush\s\-\s|Rush\sNew\sMI\:\s)?)[a-zA-Z\-\.\']+(,?\s)/\1XXXXX\2/g
+
+
+prd:biztalk - 
+s/(<ns0:SSN>|BorrowerSSN=)\d{3}\-?\d{2}\-?\d{4}(<\/ns0:SSN>|&)/\1XXX-XX-XXXX\2/g s/(Borrower\sLast\sName\:\s+).+?\,/\1XXXXX,/g
+
+
+EXTRACT-Action
+(?P<Action>(updated|nothing|create))
+
+EXTRACT-FilePath
+(remote_file|aws_s3_file)\[(?P<FilePath>\S+)\]
+
+EXTRACT-artifact
+app-artifacts\/(?P<artifact>\S+)\]
