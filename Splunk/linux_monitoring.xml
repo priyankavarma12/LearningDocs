@@ -1,0 +1,101 @@
+<form script="test.js">
+  <label>Linux Monitoring</label>
+  <fieldset submitButton="true" autoRun="false">
+    <input type="time" token="timerange">
+      <label>Time</label>
+      <default>
+        <earliest>-60m@m</earliest>
+        <latest>now</latest>
+      </default>
+    </input>
+  </fieldset>
+  <row>
+    <panel>
+      <table>
+        <search>
+          <query>source="/var/log/auth.log" host="EPINHYDW145T1" index="main" sourcetype="syslog" 
+| stats count by USER, host , COMMAND, source</query>
+          <earliest>0</earliest>
+          <sampleRatio>1</sampleRatio>
+        </search>
+        <option name="count">20</option>
+        <option name="dataOverlayMode">none</option>
+        <option name="drilldown">none</option>
+        <option name="percentagesRow">false</option>
+        <option name="rowNumbers">false</option>
+        <option name="totalsRow">false</option>
+        <option name="wrap">true</option>
+      </table>
+    </panel>
+    <panel>
+       <title>Sudo Usage</title>
+      <table>
+        <search>
+          <query>host="EPINHYDW145T1" index="main" source="/var/log/auth.log" process="sudo"
+| stats count by _time, host, COMMAND, USER, PWD
+| rename _time as Time, host as Host, COMMAND as Command, USER as User
+| fields - count
+| eval Time = strftime(Time, "%Y-%m-%d %H:%M:%S")</query>
+          <earliest>0</earliest>
+          <sampleRatio>1</sampleRatio>
+        </search>
+        <option name="count">20</option>
+        <option name="dataOverlayMode">none</option>
+        <option name="drilldown">none</option>
+        <option name="percentagesRow">false</option>
+        <option name="rowNumbers">false</option>
+        <option name="totalsRow">false</option>
+        <option name="wrap">true</option>
+      </table>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <title>Command Monitoring</title>
+      <table>
+        <search>
+          <query>index="main" source="/home/priyanka/.bash_history" 
+| table _time, host, user_name, bash_command
+| rename _time as Time, host as Host,user_name as User, COMMAND as Command
+| eval Time = strftime(Time, "%Y-%m-%d %H:%M:%S")</query>
+          <earliest>0</earliest>
+          <sampleRatio>1</sampleRatio>
+        </search>
+        <option name="count">20</option>
+        <option name="dataOverlayMode">none</option>
+        <option name="drilldown">none</option>
+        <option name="percentagesRow">false</option>
+        <option name="rowNumbers">false</option>
+        <option name="totalsRow">false</option>
+        <option name="wrap">true</option>
+      </table>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <title>Failed Usage</title>
+      <table>
+        <search>
+          <query>host="EPINHYDW145T1" index="main" source="/var/log/auth.log" process="sudo" "incorrect password" 
+| eval s=split(_raw," ") 
+| eval sudoUser=mvindex(s, 5) 
+| table _time, host, COMMAND, USER, PWD 
+| rename _time as Time, host as Host, sudoUser as "Sudo User", COMMAND as Command, USER as User 
+| eval Time = strftime(Time, "%Y-%m-%d %H:%M:%S") 
+| sort - Time</query>
+          <earliest>0</earliest>
+          <latest></latest>
+          <sampleRatio>1</sampleRatio>
+        </search>
+        <option name="count">20</option>
+        <option name="dataOverlayMode">none</option>
+        <option name="drilldown">none</option>
+        <option name="percentagesRow">false</option>
+        <option name="refresh.display">progressbar</option>
+        <option name="rowNumbers">false</option>
+        <option name="totalsRow">false</option>
+        <option name="wrap">true</option>
+      </table>
+    </panel>
+  </row>
+</form>

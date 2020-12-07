@@ -1,0 +1,45 @@
+index="jenkins_statistics" OR index="jenkins_console" event_tag="job_event" job_name IN $jobname$
+| search job_name="$projectname_token$"
+| dedup host build_url sortby -_time 
+| eval job_result=if(type="started", "INPROGRESS", job_result) `utc_to_local_time(job_started_at)` 
+| convert timeformat="%Y-%m-%d %H:%M:%S" mktime(job_started_at) as epocTime 
+| eval duration = if(isnull(job_duration), "", tostring(job_duration,"duration")) 
+| table user job_name job_type revision node build_number job_started_at duration job_result 
+| rename user as User job_name as Job job_type as JobType revision as Revision node as Node build_number as Build job_started_at as StartTime duration as Duration job_result as Result
+
+
+
+index="jenkins*" 
+| eval split_source=if(match(source, "job\/"), split(source, "/"), null()) 
+| eval job_name=if(isnull(job_name) AND isnotnull(split_source), mvindex(split_source, 1), job_name) ,build_number=if(isnull(build_number) AND isnotnull(split_source), mvindex(split_source, 2), build_number) 
+| search job_name="*" 
+| eval job_result=if(type="started", "INPROGRESS", job_result) `utc_to_local_time(job_started_at)` 
+| convert timeformat="%Y-%m-%d %H:%M:%S" mktime(job_started_at) as epocTime 
+| eval duration = if(isnull(job_duration), "", tostring(job_duration,"duration")) 
+| stats latest(build_number) as Build, latest(job_name) as Job, values(user) as User, values(job_result) as Result, latest(duration) as Duration, earliest(job_started_at) as StartTime, latest(job_type) as JobType by revision 
+| table Job, User, revision, Build, JobType, StartTime, Duration, Result
+
+
+index="jenkins*" event_tag="job_event" job_name IN $jobname$
+|  stats latest(job_result) as Result
+
+
+
+index="jenkins*" 
+| eval split_source=if(match(source, "job\/"), split(source, "/"), null()) 
+| eval job_name=if(isnull(job_name) AND isnotnull(split_source), mvindex(split_source, 1), job_name) ,build_number=if(isnull(build_number) AND isnotnull(split_source), mvindex(split_source, 2), build_number) 
+| search job_name IN $jobname$
+| search job_name="$projectname_token$"
+| eval job_result=if(type="started", "INPROGRESS", job_result) `utc_to_local_time(job_started_at)` 
+| convert timeformat="%Y-%m-%d %H:%M:%S" mktime(job_started_at) as epocTime 
+| stats latest(build_number) as Build, latest(job_name) as Job, latest(revision) as Revision, values(user) as User, latest(job_result) as Result,  earliest(job_started_at) as StartTime, latest(job_type) as JobType by job_name 
+| table User, Job, JobType, Revision, Build, StartTime, Result
+
+index="jenkins_statistics" OR index="jenkins_console" event_tag="job_event" job_name IN $jobname$
+| search job_name="$projectname_token$"
+| dedup host build_url sortby -_time 
+| eval job_result=if(type="started", "INPROGRESS", job_result) `utc_to_local_time(job_started_at)` 
+| convert timeformat="%Y-%m-%d %H:%M:%S" mktime(job_started_at) as epocTime
+| eval duration = if(isnull(job_duration), "", tostring(job_duration,"duration")) 
+| table user job_name job_type revision node build_number job_started_at duration job_result 
+| rename user as User job_name as Job job_type as JobType revision as Revision node as Node build_number as Build job_started_at as StartTime duration as Duration job_result as Result

@@ -1,0 +1,77 @@
+sudo: local: command not found
+priyanka@EPINHYDW145T1:/opt/splunk/etc/apps/search$ sudo ls
+appserver  bin	default  local	lookups  metadata  scripts  static
+priyanka@EPINHYDW145T1:/opt/splunk/etc/apps/search$ cd local
+bash: cd: local: Permission denied
+priyanka@EPINHYDW145T1:/opt/splunk/etc/apps/search$ cd ../../../..
+priyanka@EPINHYDW145T1:/opt$ cd ..
+priyanka@EPINHYDW145T1:/$ sudo cp /opt/splunk/etc/apps/search/local/data/ui/views/linux_monitoring.xml /home/priyanka
+cp: cannot stat '/opt/splunk/etc/apps/search/local/data/ui/views/linux_monitoring.xml': Nopripriyapriyanpriypriyankapprpriyanka@EPINHYDW145T1:/$ sudo cp /opt/splunk/etc/apps/search/local/data/ui/views/linux_monitoring.xml /home/priyanka
+cp: cannot stat '/opt/splunk/etc/apps/search/local/data/ui/views/linux_monitoring.xml': No such file or directory
+priyanka@EPINHYDW145T1:/$ 
+
+
+sudo lsb_release -a ==== to know ubuntu version
+
+
+priyanka@EPINHYDW145T1:~$ /opt/splunk/etc/apps/search$ sudo ls
+bash: /opt/splunk/etc/apps/search$: No such file or directory
+priyanka@EPINHYDW145T1:~$ cd /opt/splunk/etc/apps/
+priyanka@EPINHYDW145T1:/opt/splunk/etc/apps$ cd ..
+priyanka@EPINHYDW145T1:/opt/splunk/etc$ cd system
+priyanka@EPINHYDW145T1:/opt/splunk/etc/system$ cd local
+priyanka@EPINHYDW145T1:/opt/splunk/etc/system/local$ ls
+inputs.conf  migration.conf  README  restmap.conf  server.conf  web.conf
+priyanka@EPINHYDW145T1:/opt/splunk/etc/system/local$ sudo nano input.conf
+[sudo] password for priyanka: 
+priyanka@EPINHYDW145T1:/opt/splunk/etc/system/local$ sudo nano input.conf
+priyanka@EPINHYDW145T1:/opt/splunk/etc/system/local$ 
+
+
+sudo -i -u splunk nano /tmp/Splunk_Monitor/file_Monitor2
+
+1310968 -rw-r--r-- 1 jenkins  jenkins  3140849 Aug 19 14:32 winstone14524610063961555036.jar
+priyanka@EPINHYDW145T1:/tmp$ sudo chown -R splunk:splunk ./Splunk_Monitor
+priyanka@EPINHYDW145T1:/tmp$ ls -li
+
+
+priyanka@EPINHYDW145T1:/tmp$ ls -li Splunk_Monitor/
+total 8
+6292983 -rw-rw-r-- 1 splunk splunk 82 Aug 19 14:42 file_Monitor1
+6298839 -rw-rw-r-- 1 splunk splunk 80 Aug 19 14:42 file_Monitor2
+
+priyanka@EPINHYDW145T1:/opt/splunk/etc/system/local$ sudo nano inputs.conf 
+priyanka@EPINHYDW145T1:/opt/splunk/etc/system/local$ sudo nano inputs.conf 
+priyanka@EPINHYDW145T1:/opt/splunk/etc/system/local$ ls -li inputs.conf 
+4070994 -rw------- 1 root root 96 Aug 19 14:49 inputs.conf
+priyanka@EPINHYDW145T1:/opt/splunk/etc/system/local$ sudo chown splunk:splunk inputs.conf 
+priyanka@EPINHYDW145T1:/opt/splunk/etc/system/local$ ls -li inputs.conf 
+4070994 -rw------- 1 splunk splunk 96 Aug 19 14:49 inputs.conf
+priyanka@EPINHYDW145T1:/opt/splunk/etc/system/local$ 
+
+ 
+1
+priyanka@EPINHYDW145T1:/opt/splunk/etc/system/local$ sudo -u splunk nano inputs.conf 
+priyanka@EPINHYDW145T1:/opt/splunk/etc/system/local$ sudo -u splunk nano inputs.conf 
+
+2
+ sudo chown -R splunk:splunk /opt/splunk
+ sudo chown -R splunk:splunk /tmp/MySplunkFiles
+ sudo service splunk restart
+3
+priyanka@EPINHYDW145T1:/tmp/MySplunkFiles$ sudo -u splunk touch file1
+priyanka@EPINHYDW145T1:/tmp/MySplunkFiles$ sudo -u splunk nano file1
+priyanka@EPINHYDW145T1:/tmp/MySplunkFiles$ sudo -u splunk nano file1
+
+
+
+
+[default]
+host = EPINHYDW145T1
+
+[fschange:/tmp/MySplunkFiles/*]
+signedaudit=false
+index=test
+pollPeriod=1
+hashMaxSize=10485760
+

@@ -1,0 +1,76 @@
+Docker Commands 
+
+sudo docker images
+sudo docker build -t userservice:firsttry -f /home/priyanka/Projects/EPAM_JPOP/user-service/Dockerfile .
+sudo docker login
+sudo docker tag userservice:firsttry priyankavarma12docker/bookservice:userserviceImage
+sudo docker push priyankavarma12docker/bookservice:userserviceImage
+sudo docker ps -a - to see the container id
+sudo docker exec [OPTIONS] CONTAINER COMMAND [ARG...]
+sudo docker-compose -f /home/priyanka/Projects/EPAM_JPOP/docker-compose.yml build
+sudo docker-compose -f /home/priyanka/Projects/EPAM_JPOP/docker-compose.yml up
+sudo docker-compose -f /home/priyanka/Projects/EPAM_JPOP/docker-compose.yml down
+sudo docker-compose -f /home/priyanka/Projects/EPAM_JPOP/docker-compose.yml restart
+sudo docker-compose -f /home/priyanka/Projects/EPAM_JPOP/docker-compose.yml start
+sudo docker run spring:dockerimage
+
+
+priyanka@EPINHYDW145T1:~$ sudo docker images
+priyanka@EPINHYDW145T1:~$ sudo docker tag spring:dockerimage priyankavarma12docker/spring:springdockerimage
+priyanka@EPINHYDW145T1:~$ sudo docker push priyankavarma12docker/spring:springdockerimage
+
+sudo docker run --publish 3001:3001 --name springThymleaf  priyankavarma12docker/spring:firstexampleimage
+
+sudo docker ps -a
+sudo docker ps --latest
+
+
+priyanka@EPINHYDW145T1:~/Projects/docker$ sudo docker ps -a
+CONTAINER ID        IMAGE                                            COMMAND                  CREATED             STATUS                        PORTS               NAMES
+aee0cab872c6        priyankavarma12docker/spring:secondTryThymleaf   "java -jar docker-0.…"   59 seconds ago      Exited (130) 18 seconds ago                       vigorous_shirley
+123eabfd5280        e36d676b100c                                     "java -jar docker-0.…"   4 hours ago         Exited (130) 4 hours ago                          springThymleaf
+bc14638146e3        e36d676b100c                                     "java -jar docker-0.…"   4 hours ago         Exited (130) 4 hours ago                          admiring_poitras
+5ae16462047d        497e7a283a1e                                     "java -jar docker-0.…"   20 hours ago        Exited (130) 20 hours ago                         interesting_tharp
+94f39418d206        hello-world                                      "/hello"                 6 weeks ago         Exited (0) 6 weeks ago                            funny_morse
+priyanka@EPINHYDW145T1:~/Projects/docker$ sudo docker ps --latest
+CONTAINER ID        IMAGE                                            COMMAND                  CREATED              STATUS                            PORTS               NAMES
+aee0cab872c6        priyankavarma12docker/spring:secondTryThymleaf   "java -jar docker-0.…"   About a minute ago   Exited (130) About a minute ago                       vigorous_shirley
+priyanka@EPINHYDW145T1:~/Projects/docker$ sudo docker port 3001/tcp
+Error: No such container: 3001/tcp
+priyanka@EPINHYDW145T1:~/Projects/docker$ sudo docker port vigorous_shirley 3001
+Error: No public port '3001/tcp' published for vigorous_shirley
+priyanka@EPINHYDW145T1:~/Projects/docker$ sudo docker run --publish 3001:3001 --name thymleaf priyankavarma12docker/spring:secondTryThymleaf
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+ :: Spring Boot ::        (v2.3.1.RELEASE)
+
+2020-06-25 11:31:37.138  INFO 1 --- [           main] com.spring.docker.DockerApplication      : Starting DockerApplication v0.0.1-SNAPSHOT on 8e1436d36e1b with PID 1 (/docker-0.0.1-SNAPSHOT.jar started by root in /)
+2020-06-25 11:31:37.148  INFO 1 --- [           main] com.spring.docker.DockerApplication      : No active profile set, falling back to default profiles: default
+2020-06-25 11:31:43.464  INFO 1 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 3001 (http)
+2020-06-25 11:31:43.531  INFO 1 --- [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2020-06-25 11:31:43.532  INFO 1 --- [           main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.36]
+2020-06-25 11:31:44.013  INFO 1 --- [           main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2020-06-25 11:31:44.014  INFO 1 --- [           main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 6478 ms
+2020-06-25 11:31:45.009  INFO 1 --- [           main] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'applicationTaskExecutor'
+2020-06-25 11:31:45.495  INFO 1 --- [           main] o.s.b.a.w.s.WelcomePageHandlerMapping    : Adding welcome page template: index
+2020-06-25 11:31:46.131  INFO 1 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 3001 (http) with context path ''
+2020-06-25 11:31:46.199  INFO 1 --- [           main] com.spring.docker.DockerApplication      : Started DockerApplication in 11.942 seconds (JVM running for 14.244)
+2020-06-25 11:32:22.449  INFO 1 --- [nio-3001-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2020-06-25 11:32:22.449  INFO 1 --- [nio-3001-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2020-06-25 11:32:22.512  INFO 1 --- [nio-3001-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 63 ms
+^C2020-06-25 11:34:05.483  INFO 1 --- [extShutdownHook] o.s.s.concurrent.ThreadPoolTaskExecutor  : Shutting down ExecutorService 'applicationTaskExecutor'
+priyanka@EPINHYDW145T1:~/Projects/docker$ sudo docker ps -a
+CONTAINER ID        IMAGE                                            COMMAND                  CREATED             STATUS                        PORTS               NAMES
+8e1436d36e1b        priyankavarma12docker/spring:secondTryThymleaf   "java -jar docker-0.…"   2 minutes ago       Exited (130) 10 seconds ago                       thymleaf
+aee0cab872c6        priyankavarma12docker/spring:secondTryThymleaf   "java -jar docker-0.…"   7 minutes ago       Exited (130) 6 minutes ago                        vigorous_shirley
+123eabfd5280        e36d676b100c                                     "java -jar docker-0.…"   4 hours ago         Exited (130) 4 hours ago                          springThymleaf
+bc14638146e3        e36d676b100c                                     "java -jar docker-0.…"   4 hours ago         Exited (130) 4 hours ago                          admiring_poitras
+5ae16462047d        497e7a283a1e                                     "java -jar docker-0.…"   21 hours ago        Exited (130) 20 hours ago                         interesting_tharp
+94f39418d206        hello-world                                      "/hello"                 6 weeks ago         Exited (0) 6 weeks ago                            funny_morse
+priyanka@EPINHYDW145T1:~/Projects/docker$ 
+

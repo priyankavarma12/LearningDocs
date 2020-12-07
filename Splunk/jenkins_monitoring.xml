@@ -1,0 +1,95 @@
+<form>
+  <label>Jenkins Monitoring</label>
+  <fieldset submitButton="true">
+    <input type="time" token="timerange">
+      <label>Time Range</label>
+      <default>
+        <earliest>-24h@h</earliest>
+        <latest>now</latest>
+      </default>
+    </input>
+  </fieldset>
+  <row>
+    <panel>
+      <title>Jenkins Logs Info</title>
+      <table>
+        <search>
+          <query>index="main" source="/var/log/jenkins/jenkins.log" host ="EPINHYDW145T1"
+| table id, source, _raw 
+| rename id as ID, source as Source, _raw as INFO</query>
+          <earliest>-24h@h</earliest>
+          <latest>now</latest>
+          <sampleRatio>1</sampleRatio>
+        </search>
+        <option name="count">20</option>
+        <option name="dataOverlayMode">none</option>
+        <option name="drilldown">none</option>
+        <option name="percentagesRow">false</option>
+        <option name="rowNumbers">false</option>
+        <option name="totalsRow">false</option>
+        <option name="wrap">true</option>
+      </table>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <title>Jenkins Job Status</title>
+      <table>
+        <search>
+          <query>index="jenkins" host="EPINHYDW145T1" event_tag="job_event" | dedup host build_url sortby -_time | eval job_result=if(type="started", "INPROGRESS", job_result) `utc_to_local_time(job_started_at)` | convert timeformat="%Y-%m-%d %H:%M:%S" mktime(job_started_at) as epocTime | eval duration = if(isnull(job_duration), "", tostring(job_duration,"duration")) | table host job_name build_number job_started_at duration job_result | rename job_name as job build_number as build job_result as result</query>
+          <earliest>-24h@h</earliest>
+          <latest>now</latest>
+          <sampleRatio>1</sampleRatio>
+        </search>
+        <option name="count">20</option>
+        <option name="dataOverlayMode">none</option>
+        <option name="drilldown">none</option>
+        <option name="percentagesRow">false</option>
+        <option name="rowNumbers">false</option>
+        <option name="totalsRow">false</option>
+        <option name="wrap">true</option>
+      </table>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <title>Job Duration</title>
+      <viz type="heat-map-viz.heat-map-viz">
+        <search>
+          <query>index="jenkins_statistics" host="EPINHYDW145T1" 
+| where isnotnull(job_duration) 
+| timechart span=1h avg(job_duration) by job_name</query>
+          <earliest>-2d@d</earliest>
+          <latest>now</latest>
+          <sampleRatio>1</sampleRatio>
+        </search>
+        <option name="drilldown">none</option>
+        <option name="heat-map-viz.heat-map-viz.colorCritical">#DC4E41</option>
+        <option name="heat-map-viz.heat-map-viz.colorHigh">#F1813F</option>
+        <option name="heat-map-viz.heat-map-viz.colorLow">#53A051</option>
+        <option name="heat-map-viz.heat-map-viz.colorMedium">#F8BE34</option>
+        <option name="heat-map-viz.heat-map-viz.enableAnimation">false</option>
+        <option name="heat-map-viz.heat-map-viz.enableShades">true</option>
+        <option name="heat-map-viz.heat-map-viz.labelFontSize">18</option>
+        <option name="heat-map-viz.heat-map-viz.legendPosition">top</option>
+        <option name="heat-map-viz.heat-map-viz.legendText">categories</option>
+        <option name="heat-map-viz.heat-map-viz.shape">square</option>
+        <option name="heat-map-viz.heat-map-viz.showDateInTooltip">true</option>
+        <option name="heat-map-viz.heat-map-viz.showLegend">true</option>
+        <option name="heat-map-viz.heat-map-viz.showValues">false</option>
+        <option name="heat-map-viz.heat-map-viz.tokenLabel">hm_token_label</option>
+        <option name="heat-map-viz.heat-map-viz.tokenTime">hm_token_time</option>
+        <option name="heat-map-viz.heat-map-viz.tokenValue">hm_token_value</option>
+        <option name="heat-map-viz.heat-map-viz.tooltipDateFormat">auto</option>
+        <option name="heat-map-viz.heat-map-viz.valHigh">11</option>
+        <option name="heat-map-viz.heat-map-viz.valLow">1</option>
+        <option name="heat-map-viz.heat-map-viz.valMedium">6</option>
+        <option name="heat-map-viz.heat-map-viz.yaxiswidth">auto</option>
+        <option name="heat-map-viz.heat-map-viz.yaxiswidthpx">250</option>
+        <option name="trellis.enabled">0</option>
+        <option name="trellis.scales.shared">1</option>
+        <option name="trellis.size">medium</option>
+      </viz>
+    </panel>
+  </row>
+</form>
